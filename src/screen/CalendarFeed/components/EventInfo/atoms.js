@@ -6,7 +6,6 @@ export const EventContainer = styled.View`
   background-color: ${({ theme, bgColor }) => theme.colors[bgColor]};
   padding: 6px 10px;
   border-radius: 4px;
-  margin-bottom: 8px;
 `;
 
 export const EventRow = styled.View`

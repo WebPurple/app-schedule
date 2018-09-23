@@ -1,21 +1,23 @@
 // @flow
 import React from 'react';
 import { Wrapper, DateContainer, EventsContainer } from './atoms';
-import { DateInfo } from '../../DateInfo.type';
+import { EventInfo as TEventInfo } from '../../DateInfo.type';
 import { format } from 'date-fns';
 import Date from '../Date/Date';
-import EventList from '../EventList/EventList';
+import EventInfo from '../EventInfo/EventInfo';
 
-type Props = DateInfo;
+type Props = TEventInfo & { showDate: boolean };
 
-const DayCell = ({ isToday, value: dateValue, events }: Props) => {
+const DayCell = ({ isToday, showDate, ...eventInfo }: Props) => {
   return (
     <Wrapper>
       <DateContainer>
-        <Date isToday={isToday} date={dateValue} />
+        {showDate ? (
+          <Date isToday={isToday} date={eventInfo.startTime} />
+        ) : null}
       </DateContainer>
       <EventsContainer>
-        <EventList events={events} />
+        <EventInfo event={eventInfo} />
       </EventsContainer>
     </Wrapper>
   );
