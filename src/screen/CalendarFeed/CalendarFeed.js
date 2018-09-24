@@ -3,13 +3,24 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { View, Text, ScrollView, FlatList } from 'react-native';
 import faker from 'faker';
-import { getDaysInMonth, getYear, getMonth, isToday, setMonth } from 'date-fns';
+import {
+  getDaysInMonth,
+  getYear,
+  getMonth,
+  isToday,
+  setMonth,
+  differenceInDays,
+  differenceInYears,
+  differenceInMonths,
+  getDate,
+} from 'date-fns';
 
 import { Layout } from '../../components/Layout/Layout';
 import { EventInfo } from './DateInfo.type';
 import DayCell from './components/DayCell/DayCell';
 import { randomizeColor } from '../../utils/randomizeColor';
 import { Header } from '../../components/Header/Header';
+import { CompactCalendar } from './components/CompactCalendar/CompactCalendar';
 
 type TEventInfoFeed = EventInfo & {
   showDate: boolean,
@@ -17,6 +28,7 @@ type TEventInfoFeed = EventInfo & {
 
 type State = {
   events: Array<TEventInfoFeed>,
+  currentEvent: EventInfo,
 };
 
 const DateString = styled.Text`
@@ -32,17 +44,17 @@ export class CalendarFeed extends React.Component<Props, State> {
     headerTitle: <Header title="Webpurple's Scheduler" />,
   };
 
+  listRef: React.Ref<FlatList> = React.createRef();
+
   constructor() {
     super();
     const today = new Date();
     const prevMonth = setMonth(today, getMonth(today) - 1);
     const nextMonth = setMonth(today, getMonth(today) + 1);
+    const events = CalendarFeed.generateCurrentMonth(today);
     this.state = {
-      events: [
-        // ...CalendarFeed.generateCurrentMonth(prevMonth),
-        ...CalendarFeed.generateCurrentMonth(today),
-        // ...CalendarFeed.generateCurrentMonth(nextMonth),
-      ],
+      currentEvent: events[this.findFirstTodayEvent(events)],
+      events,
     };
   }
 
@@ -90,16 +102,44 @@ export class CalendarFeed extends React.Component<Props, State> {
   findFirstTodayEvent = (events: Array<EventInfo>): number =>
     events.findIndex(event => isToday(event.startTime));
 
+  onScroll = ({
+    viewableItems,
+  }: {
+    viewableItems: Array<{ item: EventInfo, index: number }>,
+  }) => {
+    this.setState({ currentEvent: viewableItems[0].item });
+  };
+
+  handleDateSelection = (date: Date) => {
+    const foundIndex = this.state.events.findIndex(({ startTime }) => {
+      return (
+        getYear(startTime) === getYear(date) &&
+        getMonth(startTime) === getMonth(date) &&
+        getDate(startTime) === getDate(date)
+      );
+    });
+    // $FlowFixMe
+    this.listRef.current.scrollToIndex({ index: foundIndex });
+  };
+
   render() {
     return (
       <Layout>
-        <FlatList
-          data={this.state.events}
-          keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem}
-          getItemLayout={this._getItemLayout}
-          initialScrollIndex={this.findFirstTodayEvent(this.state.events)}
+        <CompactCalendar
+          onSelectDate={this.handleDateSelection}
+          selectedDate={this.state.currentEvent.startTime}
         />
+        <View style={{ flex: 1 }}>
+          <FlatList
+            ref={this.listRef}
+            data={this.state.events}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+            getItemLayout={this._getItemLayout}
+            initialScrollIndex={this.findFirstTodayEvent(this.state.events)}
+            onViewableItemsChanged={this.onScroll}
+          />
+        </View>
       </Layout>
     );
   }

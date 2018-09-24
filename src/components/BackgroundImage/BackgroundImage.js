@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Wrapper, StyledImage, Content, Overlay } from './atoms';
 import type { ColorName } from '../../styles/theme';
 
+// $FlowFixMe
 const imageBG = require('../../assets/bg.jpeg');
 
 type Props = {
