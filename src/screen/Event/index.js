@@ -11,6 +11,7 @@ import {
 } from './atoms';
 import { Tabs } from './components/Tabs/Tabs';
 import { BackgroundImage } from '../../components/BackgroundImage/BackgroundImage';
+import { theme } from '../../styles/theme';
 
 type Props = {
   navigation: Object,
@@ -38,7 +39,7 @@ export class EventScreen extends React.Component<Props, {}> {
           </BackgroundImage>
         </HeaderWrapper>
         <ContentWrapper>
-          <Tabs />
+          <Tabs pageColor={theme.colors[event.color]} />
         </ContentWrapper>
       </Wrapper>
     );
