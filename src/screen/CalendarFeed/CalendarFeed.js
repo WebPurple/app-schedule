@@ -23,7 +23,11 @@ const DateString = styled.Text`
   color: ${props => (props.current ? '#00f' : '#000')};
 `;
 
-export class CalendarFeed extends React.Component<{}, State> {
+type Props = {
+  navigation: Object,
+};
+
+export class CalendarFeed extends React.Component<Props, State> {
   static navigationOptions = {
     headerTitle: <Header title="Webpurple's Scheduler" />,
   };

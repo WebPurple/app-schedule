@@ -8,19 +8,22 @@ import EventInfo from '../EventInfo/EventInfo';
 
 type Props = TEventInfo & { showDate: boolean };
 
-const DayCell = ({ isToday, showDate, ...eventInfo }: Props) => {
-  return (
-    <Wrapper>
-      <DateContainer>
-        {showDate ? (
-          <Date isToday={isToday} date={eventInfo.startTime} />
-        ) : null}
-      </DateContainer>
-      <EventsContainer>
-        <EventInfo event={eventInfo} />
-      </EventsContainer>
-    </Wrapper>
-  );
-};
+class DayCell extends React.PureComponent<Props, {}> {
+  render() {
+    const { isToday, showDate, onSelect, ...eventInfo } = this.props;
+    return (
+      <Wrapper>
+        <DateContainer>
+          {showDate ? (
+            <Date isToday={isToday} date={eventInfo.startTime} />
+          ) : null}
+        </DateContainer>
+        <EventsContainer>
+          <EventInfo event={eventInfo} />
+        </EventsContainer>
+      </Wrapper>
+    );
+  }
+}
 
 export default DayCell;

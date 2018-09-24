@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { getColor, getFontFamily } from '../../styles/theme';
+import { getColor } from '../../styles/theme';
 
 export const Container = styled.View`
   flex-direction: row;

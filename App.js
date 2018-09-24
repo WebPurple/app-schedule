@@ -5,7 +5,10 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './src/styles/theme';
 import { Router } from './Router';
 
-export default class extends React.Component {
+type State = {
+  assetsLoaded: boolean,
+};
+export default class extends React.Component<{}, State> {
   state = {
     assetsLoaded: false,
   };

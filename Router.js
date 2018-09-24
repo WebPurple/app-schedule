@@ -1,8 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { CalendarFeed } from './src/screen/CalendarFeed/CalendarFeed';
+import { EventScreen } from './src/screen/Event';
 
-export const Router = createStackNavigator(
+const MainStack = createStackNavigator(
   {
     Home: CalendarFeed,
   },
@@ -18,5 +19,20 @@ export const Router = createStackNavigator(
         fontFamily: 'Rubik',
       },
     },
+  }
+);
+
+export const Router = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack,
+    },
+    Event: {
+      screen: EventScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
   }
 );

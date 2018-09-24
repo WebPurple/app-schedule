@@ -1,5 +1,8 @@
 // @flow
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation';
+
 import {
   EventTitle,
   EventDescription,
@@ -13,6 +16,7 @@ import { format } from 'date-fns';
 
 type Props = {
   event: TEventInfo,
+  navigation: Object,
 };
 
 const formatTime = (start: Date, end: Date): string => {
@@ -21,20 +25,32 @@ const formatTime = (start: Date, end: Date): string => {
   return `${from} - ${to}`;
 };
 
-const EventInfo = ({ event }: Props) => {
-  return (
-    <EventContainer bgColor={event.color} key={event.title.replace(' ', '_')}>
-      <EventRow>
-        <EventTitleLimit>
-          <EventTitle numberOfLines={1}>{event.title}</EventTitle>
-        </EventTitleLimit>
-        <EventDuration>
-          {formatTime(event.startTime, event.endTime)}
-        </EventDuration>
-      </EventRow>
-      <EventDescription numberOfLines={1}>{event.description}</EventDescription>
-    </EventContainer>
-  );
-};
+class EventInfo extends React.Component<Props, {}> {
+  handleSelect = () =>
+    this.props.navigation.navigate('Event', { event: this.props.event });
+  render() {
+    const { event } = this.props;
+    return (
+      <TouchableOpacity onPress={this.handleSelect}>
+        <EventContainer
+          bgColor={event.color}
+          key={event.title.replace(' ', '_')}
+        >
+          <EventRow>
+            <EventTitleLimit>
+              <EventTitle numberOfLines={1}>{event.title}</EventTitle>
+            </EventTitleLimit>
+            <EventDuration>
+              {formatTime(event.startTime, event.endTime)}
+            </EventDuration>
+          </EventRow>
+          <EventDescription numberOfLines={1}>
+            {event.description}
+          </EventDescription>
+        </EventContainer>
+      </TouchableOpacity>
+    );
+  }
+}
 
-export default EventInfo;
+export default withNavigation(EventInfo);
