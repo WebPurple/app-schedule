@@ -19,6 +19,7 @@ export const EventTitleLimit = styled.View`
 export const EventTitle = styled.Text`
   color: #fff;
   font-size: 16px;
+  font-family: 'Rubik';
 `;
 
 export const EventDescription = styled(EventTitle)`

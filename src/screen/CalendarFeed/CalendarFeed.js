@@ -4,9 +4,12 @@ import styled from 'styled-components';
 import { View, Text, ScrollView, FlatList } from 'react-native';
 import faker from 'faker';
 import { getDaysInMonth, getYear, getMonth, isToday, setMonth } from 'date-fns';
+
+import { Layout } from '../../components/Layout/Layout';
 import { EventInfo } from './DateInfo.type';
 import DayCell from './components/DayCell/DayCell';
 import { randomizeColor } from '../../utils/randomizeColor';
+import { Header } from '../../components/Header/Header';
 
 type TEventInfoFeed = EventInfo & {
   showDate: boolean,
@@ -20,7 +23,11 @@ const DateString = styled.Text`
   color: ${props => (props.current ? '#00f' : '#000')};
 `;
 
-class CalendarFeed extends React.Component<{}, State> {
+export class CalendarFeed extends React.Component<{}, State> {
+  static navigationOptions = {
+    headerTitle: <Header title="Webpurple's Scheduler" />,
+  };
+
   constructor() {
     super();
     const today = new Date();
@@ -81,15 +88,15 @@ class CalendarFeed extends React.Component<{}, State> {
 
   render() {
     return (
-      <FlatList
-        data={this.state.events}
-        keyExtractor={this._keyExtractor}
-        renderItem={this._renderItem}
-        getItemLayout={this._getItemLayout}
-        initialScrollIndex={this.findFirstTodayEvent(this.state.events)}
-      />
+      <Layout>
+        <FlatList
+          data={this.state.events}
+          keyExtractor={this._keyExtractor}
+          renderItem={this._renderItem}
+          getItemLayout={this._getItemLayout}
+          initialScrollIndex={this.findFirstTodayEvent(this.state.events)}
+        />
+      </Layout>
     );
   }
 }
-
-export default CalendarFeed;

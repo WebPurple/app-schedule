@@ -1,12 +1,9 @@
 // @flow
 import React from 'react';
+import Expo from 'expo';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './src/styles/theme';
-import Header from './src/components/Header/Header';
-import { Layout } from './src/components/Layout/Layout';
-import CalendarFeed from './src/screen/CalendarFeed/CalendarFeed';
-import Expo from 'expo';
-import { loadAsync } from 'expo/src/Font';
+import { Router } from './Router';
 
 export default class extends React.Component {
   state = {
@@ -21,19 +18,9 @@ export default class extends React.Component {
   }
 
   render() {
-    if (!this.state.assetsLoaded) {
-      return null;
-    }
     return (
       <ThemeProvider theme={theme}>
-        <Layout.Wrapper>
-          <Layout.Header>
-            <Header title="Webpurple's Scheduler" />
-          </Layout.Header>
-          <Layout.Content>
-            <CalendarFeed />
-          </Layout.Content>
-        </Layout.Wrapper>
+        {this.state.assetsLoaded ? <Router /> : null}
       </ThemeProvider>
     );
   }

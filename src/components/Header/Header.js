@@ -9,7 +9,7 @@ type Props = {
   title: string,
 };
 
-const Header = ({ title }: Props) => {
+export const Header = ({ title }: Props) => {
   return (
     <Container>
       <Logo source={logo} />
@@ -17,5 +17,3 @@ const Header = ({ title }: Props) => {
     </Container>
   );
 };
-
-export default Header;
