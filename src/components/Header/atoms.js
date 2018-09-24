@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { getColor } from '../../styles/theme';
+import { getColor, getFontFamily } from '../../styles/theme';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -14,8 +14,9 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
   color: ${getColor('lipstick')};
-  font-size: 22px;
+  font-family: Rubik;
   font-weight: bold;
+  font-size: 22px;
 `;
 
 export const Logo = styled.Image`
