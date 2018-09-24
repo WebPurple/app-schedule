@@ -1,7 +1,16 @@
 // @flow
 import React from 'react';
 import { EventInfo } from '../CalendarFeed/DateInfo.type';
-import { Wrapper, HeaderWrapper, Title, Description } from './atoms';
+import {
+  Wrapper,
+  HeaderWrapper,
+  Title,
+  Description,
+  ContentWrapper,
+  HeaderContent,
+} from './atoms';
+import { Tabs } from './components/Tabs/Tabs';
+import { BackgroundImage } from '../../components/BackgroundImage/BackgroundImage';
 
 type Props = {
   navigation: Object,
@@ -21,9 +30,16 @@ export class EventScreen extends React.Component<Props, {}> {
     return (
       <Wrapper>
         <HeaderWrapper bgColor={event.color}>
-          <Title>{event.title}</Title>
-          <Description>{event.description}</Description>
+          <BackgroundImage overlayColor={event.color}>
+            <HeaderContent>
+              <Title>{event.title}</Title>
+              <Description>{event.description}</Description>
+            </HeaderContent>
+          </BackgroundImage>
         </HeaderWrapper>
+        <ContentWrapper>
+          <Tabs />
+        </ContentWrapper>
       </Wrapper>
     );
   }

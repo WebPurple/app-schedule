@@ -9,10 +9,6 @@ export const Wrapper = styled.View`
 
 export const HeaderWrapper = styled.View`
   height: 300px;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: ${props => getColor(props.bgColor)(props)};
-  padding: 20px;
 `;
 
 export const Title = styled.Text`
@@ -25,4 +21,12 @@ export const Title = styled.Text`
 export const Description = styled(Title)`
   font-size: 16px;
   font-weight: 200;
+`;
+
+export const ContentWrapper = styled.View`
+  flex: 1;
+`;
+
+export const HeaderContent = styled.View`
+  padding: 20px;
 `;
