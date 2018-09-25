@@ -12,6 +12,9 @@ export const Wrapper = styled.View`
 
 export const Row = styled.View`
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
 `;
 
 export const Cell = styled.View`
