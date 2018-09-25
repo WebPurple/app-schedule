@@ -1,8 +1,7 @@
 // @flow
-import * as React from 'react';
 import styled from 'styled-components';
 
 export const Layout = styled.View`
-  background-color: #fff;
-  flex: 1;
+    background-color: #fff;
+    flex: 1;
 `;

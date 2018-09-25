@@ -6,25 +6,24 @@ import { theme } from './src/styles/theme';
 import { Router } from './Router';
 
 type State = {
-  assetsLoaded: boolean,
+    assetsLoaded: boolean,
 };
-export default class extends React.Component<{}, State> {
-  state = {
-    assetsLoaded: false,
-  };
 
-  async componentDidMount() {
-    await Expo.Font.loadAsync({
-      Rubik: require('./src/assets/Rubik-Regular.ttf'),
-    });
-    this.setState({ assetsLoaded: true });
-  }
+const RubikFont = require('./src/assets/Rubik-Regular.ttf');
 
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        {this.state.assetsLoaded ? <Router /> : null}
-      </ThemeProvider>
-    );
-  }
+export default class App extends React.Component<{}, State> {
+    state = {
+        assetsLoaded: false,
+    };
+
+    async componentDidMount() {
+        await Expo.Font.loadAsync({
+            Rubik: RubikFont,
+        });
+        this.setState({ assetsLoaded: true });
+    }
+
+    render() {
+        return <ThemeProvider theme={theme}>{this.state.assetsLoaded ? <Router /> : null}</ThemeProvider>;
+    }
 }

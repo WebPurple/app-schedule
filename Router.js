@@ -1,38 +1,40 @@
-import React from 'react';
+// @flow
 import { createStackNavigator } from 'react-navigation';
 import { CalendarFeed } from './src/screen/CalendarFeed/CalendarFeed';
 import { EventScreen } from './src/screen/Event';
 
 const MainStack = createStackNavigator(
-  {
-    Home: CalendarFeed,
-  },
-  {
-    initialRouteName: 'Home',
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      headerTintColor: '#e62270',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'Rubik',
-      },
+    {
+        // $FlowFixMe
+        Home: CalendarFeed,
     },
-  }
+    {
+        initialRouteName: 'Home',
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#fff',
+            },
+            headerTintColor: '#e62270',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                fontFamily: 'Rubik',
+            },
+        },
+    },
 );
 
 export const Router = createStackNavigator(
-  {
-    Main: {
-      screen: MainStack,
+    {
+        Main: {
+            screen: MainStack,
+        },
+        Event: {
+            // $FlowFixMe
+            screen: EventScreen,
+        },
     },
-    Event: {
-      screen: EventScreen,
+    {
+        mode: 'modal',
+        headerMode: 'none',
     },
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  }
 );
