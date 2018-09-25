@@ -18,7 +18,7 @@ export const Overlay = styled.View`
     height: 100%;
     left: 0;
     top: 0;
-    background-color: ${props => (props.overlayColor ? getColor(props.overlayColor)(props) : 'transparent')};
+    background-color: ${props => getColor(props.overlayColor, 'transparent')};
     opacity: 0.65;
 `;
 

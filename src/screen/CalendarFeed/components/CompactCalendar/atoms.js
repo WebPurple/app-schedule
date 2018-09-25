@@ -21,6 +21,6 @@ export const Cell = styled.View`
 export const CellText = styled.Text`
     text-align: center;
     text-decoration: ${props => (props.underline ? 'underline' : 'none')};
-    color: ${props => getColor(props.underline ? 'lipstick' : 'warmGrey')(props)};
+    color: ${props => getColor(props.underline ? 'lipstick' : 'warmGrey')};
     font-family: Rubik;
 `;

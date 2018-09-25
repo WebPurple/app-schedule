@@ -11,7 +11,7 @@ export const Wrapper = styled.View`
 export const Day = styled.Text`
     font-size: 22px;
     font-family: 'Rubik';
-    color: ${props => (props.isToday ? getColor('lipstick')(props) : getColor('greyishBrown')(props))};
+    color: ${props => getColor(props.isToday ? 'lipstick' : 'greyishBrown')};
 `;
 
 export const WeekDay = styled(Day)`

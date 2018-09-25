@@ -23,4 +23,9 @@ export type ThemeProps = {
     theme: { colors: typeof colors },
 };
 
-export const getColor = (color: ColorName) => ({ theme: { _colors } }: ThemeProps) => _colors[color];
+export const getColor = (color?: ColorName, defaultColor: string): string => {
+    if (!color || !colors[color]) {
+        return defaultColor;
+    }
+    return colors[color];
+};
