@@ -23,7 +23,7 @@ export type ThemeProps = {
     theme: { colors: typeof colors },
 };
 
-export const getColor = (color?: ColorName, defaultColor: string): string => {
+export const getColor = (color?: ColorName, defaultColor: string = 'transparent'): string => {
     if (!color || !colors[color]) {
         return defaultColor;
     }

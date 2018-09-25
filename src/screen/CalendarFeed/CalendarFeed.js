@@ -44,7 +44,7 @@ export class CalendarFeed extends React.Component<Props, State> {
     static FOR_TEST_ONLY_GENERATE_EVENTS(...args: Array<number>): Array<TEventInfoFeed> {
         return Array.from(
             { length: faker.random.number({ min: 1, max: 5 }) },
-            (_v, index): EventInfo => ({
+            (_v, index): TEventInfoFeed => ({
                 title: faker.lorem.sentence(5),
                 description: faker.lorem.sentence(8),
                 isToday: isToday(new Date(...args)),
@@ -70,7 +70,7 @@ export class CalendarFeed extends React.Component<Props, State> {
         return <DayCell showDate={showDate} {...otherFields} />;
     };
 
-    getItemLayout = (_item, index: number) => ({
+    getItemLayout = (_item: void, index: number) => ({
         length: 70,
         offset: 70 * index,
         index,

@@ -9,10 +9,10 @@ type Props = TEventInfo & { showDate: boolean };
 
 class DayCell extends React.PureComponent<Props, {}> {
     render() {
-        const { isToday, showDate, ...eventInfo } = this.props;
+        const { showDate, ...eventInfo } = this.props;
         return (
             <Wrapper>
-                <DateContainer>{showDate ? <Date isToday={isToday} date={eventInfo.startTime} /> : null}</DateContainer>
+                <DateContainer>{showDate ? <Date isToday={eventInfo.isToday} date={eventInfo.startTime} /> : null}</DateContainer>
                 <EventsContainer>
                     <EventInfo event={eventInfo} />
                 </EventsContainer>

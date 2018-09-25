@@ -10,11 +10,14 @@ type Props = {
 };
 
 export class CompactCalendar extends React.Component<Props, {}> {
+    animatedValue: Animated.Value;
+    panResponder: PanResponder;
+    
     static WeekDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
 
     constructor() {
         super();
-        this.currentValue = 20;
+        let currentValue: number = 20;
         this.animatedValue = new Animated.Value(20);
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => true,
@@ -22,7 +25,7 @@ export class CompactCalendar extends React.Component<Props, {}> {
             onMoveShouldSetPanResponder: () => true,
             onMoveShouldSetPanResponderCapture: () => true,
             onPanResponderMove: (_e, gestureHandler) => {
-                const isAlreadyOpened = this.currentValue === 220;
+                const isAlreadyOpened = currentValue === 220;
                 const valueToSet = isAlreadyOpened ? 220 + gestureHandler.dy : gestureHandler.dy;
                 this.animatedValue.setValue(Math.max(20, valueToSet));
             },
@@ -32,7 +35,7 @@ export class CompactCalendar extends React.Component<Props, {}> {
                 Animated.spring(this.animatedValue, {
                     toValue: shouldBeClosed ? 20 : 220,
                 }).start();
-                this.currentValue = shouldBeClosed ? 20 : 220;
+                currentValue = shouldBeClosed ? 20 : 220;
             },
         });
     }
