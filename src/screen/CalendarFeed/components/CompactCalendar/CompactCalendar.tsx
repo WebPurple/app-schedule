@@ -1,13 +1,25 @@
 import React from 'react';
-import { startOfWeek, addDays, format, getYear, getMonth } from 'date-fns';
-import { TouchableOpacity, PanResponder, Animated } from 'react-native';
+import { startOfWeek, addDays, format, getYear, getMonth, differenceInCalendarWeeks, startOfMonth } from 'date-fns';
+import { TouchableOpacity, PanResponder, Animated, PanResponderInstance, View, Text } from 'react-native';
 import { Wrapper, Row, Cell, CellText } from './atoms';
 
-export class CompactCalendar extends React.Component {
-    constructor() {
-        super();
+type Props = {
+    selectedDate: Date;
+    onSelectDate: (date: Date) => void;
+};
+
+export class CompactCalendar extends React.Component<Props> {
+    private static OPEN_HEIGHT = 220;
+    private animatedValue: Animated.AnimatedValue = new Animated.Value(CompactCalendar.OPEN_HEIGHT);
+    private panResponder: PanResponderInstance;
+
+    constructor(props: Props) {
+        super(props);
+        this.initializePanResponder();
+    }
+
+    private initializePanResponder() {
         let currentValue = 20;
-        this.animatedValue = new Animated.Value(20);
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => false,
             onStartShouldSetPanResponderCapture: () => false,
@@ -19,7 +31,7 @@ export class CompactCalendar extends React.Component {
                 this.animatedValue.setValue(Math.max(20, valueToSet));
             },
             onPanResponderTerminationRequest: () => true,
-            onPanResponderRelease: (e, gh) => {
+            onPanResponderRelease: (_e, gh) => {
                 const shouldBeClosed = gh.dy <= 220;
                 Animated.spring(this.animatedValue, {
                     toValue: shouldBeClosed ? 20 : 220,
@@ -29,22 +41,47 @@ export class CompactCalendar extends React.Component {
         });
     }
 
-    generateCurrentWeekDays = ({ selectedDate }) => {
+    generateCurrentWeekDays = ({ selectedDate }: { selectedDate: Date }) => {
         const firstDayOfWeek = startOfWeek(selectedDate, {
             weekStartsOn: 1,
         });
         return Array.from({ length: 7 }, (_v, i) => format(addDays(firstDayOfWeek, i), 'DD'));
     };
 
-    static isCurrentDate(dd, date) {
+    static isCurrentDate(dd: string, date: Date) {
         return dd === format(date, 'DD');
     }
 
-    handlePress = dd => () => {
+    handlePress = (dd: String) => () => {
         this.props.onSelectDate(
             new Date(getYear(this.props.selectedDate), getMonth(this.props.selectedDate), Number(dd)),
         );
     };
+
+    renderPrevWeeks({ selectedDate }: Props) {
+        const firstDayOfMonth = startOfMonth(selectedDate);
+        const prevWeeksLength = differenceInCalendarWeeks(selectedDate, firstDayOfMonth);
+        if (prevWeeksLength === 0) {
+            return null;
+        }
+        return (
+            <View>
+                {Array.from({ length: prevWeeksLength }, (_v, i: number) => {
+                    const currentDay = addDays(firstDayOfMonth, 7 * i);
+                    const weekDays = this.generateCurrentWeekDays({ selectedDate: currentDay });
+                    return (
+                        <Row key={currentDay.toString()}>
+                            {weekDays.map(wd => (
+                                <Cell key={wd}>
+                                    <CellText>{wd}</CellText>
+                                </Cell>
+                            ))}
+                        </Row>
+                    );
+                })}
+            </View>
+        );
+    }
 
     render() {
         const { selectedDate } = this.props;
@@ -57,7 +94,10 @@ export class CompactCalendar extends React.Component {
                         </Cell>
                     ))}
                 </Row>
+
                 <Row as={Animated.View} style={{ height: this.animatedValue }}>
+                    {/* {this.renderPrevWeeks(this.props)}
+                <Row> */}
                     {this.generateCurrentWeekDays(this.props).map(wd => {
                         const isCurrentDate = CompactCalendar.isCurrentDate(wd, selectedDate);
                         return (
