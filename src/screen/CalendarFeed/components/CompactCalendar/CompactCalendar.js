@@ -11,8 +11,8 @@ export class CompactCalendar extends React.Component {
         let currentValue = 20;
         this.animatedValue = new Animated.Value(20);
         this.panResponder = PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onStartShouldSetPanResponderCapture: () => true,
+            onStartShouldSetPanResponder: () => false,
+            onStartShouldSetPanResponderCapture: () => false,
             onMoveShouldSetPanResponder: () => true,
             onMoveShouldSetPanResponderCapture: () => true,
             onPanResponderMove: (_e, gestureHandler) => {
