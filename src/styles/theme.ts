@@ -12,11 +12,15 @@ const colors = {
     liliac: '#c788fe',
 };
 
+type Colors = typeof colors;
+
+export type ColorName = keyof Colors;
+
 export const theme = {
     colors,
 };
 
-export const getColor = (color, defaultColor = 'transparent') => {
+export const getColor = (color: ColorName, defaultColor: string = 'transparent'): Colors[ColorName] => {
     if (!color || !colors[color]) {
         return defaultColor;
     }
