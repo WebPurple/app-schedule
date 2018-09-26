@@ -15,10 +15,11 @@
         "noUnusedParameters": true,
         "noImplicitReturns": true,
         "skipLibCheck": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "typeRoots": ["./types", "./node_modules/@types"]
     },
     "filesGlob": ["typings/index.d.ts", "src/**/*.ts", "src/**/*.tsx", "node_modules/typescript/lib/lib.es6.d.ts"],
     "types": ["react", "react-native"],
-    "exclude": ["build", "node_modules", "App.js"],
+    "exclude": ["build", "node_modules", "App.js", "types"],
     "compileOnSave": false
 }

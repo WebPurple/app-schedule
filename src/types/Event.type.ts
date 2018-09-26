@@ -7,3 +7,8 @@ export interface IEvent {
     endDate: Date;
     color: ColorName;
 }
+
+export interface DisplayedEvent extends IEvent {
+    isToday: boolean;
+    showDate: boolean;
+}

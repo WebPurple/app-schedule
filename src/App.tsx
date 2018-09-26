@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import { Router } from './Router';
 
+// tslint:disable-next-line:no-var-requires
 const RubikFont = require('../assets/Rubik-Regular.ttf');
 
 export default class App extends React.Component {
