@@ -79,7 +79,9 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
                 getMonth(startDate) === getMonth(date) &&
                 getDate(startDate) === getDate(date),
         );
-        this.listRef.current.scrollToIndex({ index: foundIndex });
+        if (foundIndex !== -1) {
+            this.listRef.current.scrollToIndex({ index: foundIndex, animated: false });
+        }
     };
 
     render() {
@@ -97,6 +99,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
                         renderItem={this.renderItem}
                         getItemLayout={this.getItemLayout}
                         initialScrollIndex={this.findFirstTodayEvent(this.state.events)}
+                        scrollEventThrottle={1}
                         onViewableItemsChanged={this.onScroll}
                     />
                 </View>

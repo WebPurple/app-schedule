@@ -8,11 +8,17 @@ export const Wrapper = styled.View`
     border-bottom-width: 1px;
 `;
 
+export const CalendarBlock = styled.View`
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+`;
+
 export const Row = styled.View`
+    width: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 20px;
 `;
 
 export const Cell = styled.View`
