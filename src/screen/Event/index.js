@@ -12,7 +12,7 @@ export class EventScreen extends React.Component {
     };
 
     render() {
-        const event: EventInfo = this.props.navigation.getParam('event', null);
+        const event = this.props.navigation.getParam('event', null);
         if (event === null) {
             return null;
         }

@@ -4,8 +4,6 @@ import { TouchableOpacity, PanResponder, Animated } from 'react-native';
 import { Wrapper, Row, Cell, CellText } from './atoms';
 
 export class CompactCalendar extends React.Component {
-    static WeekDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
-
     constructor() {
         super();
         let currentValue = 20;
@@ -53,7 +51,7 @@ export class CompactCalendar extends React.Component {
         return (
             <Wrapper {...this.panResponder.panHandlers}>
                 <Row>
-                    {CompactCalendar.WeekDays.map(wd => (
+                    {['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'].map(wd => (
                         <Cell key={wd}>
                             <CellText>{wd}</CellText>
                         </Cell>

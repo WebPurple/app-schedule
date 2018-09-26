@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation';
-import { CalendarFeed } from './src/screen/CalendarFeed/CalendarFeed';
-import { EventScreen } from './src/screen/Event';
+import { CalendarFeed } from './screen/CalendarFeed/CalendarFeed';
+import { EventScreen } from './screen/Event';
 
 const MainStack = createStackNavigator(
     {

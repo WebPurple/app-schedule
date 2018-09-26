@@ -6,7 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const EventInfoTab = () => (
     <View>
-        <Text>EventInfo</Text>
+        <Text>Event Info</Text>
     </View>
 );
 
