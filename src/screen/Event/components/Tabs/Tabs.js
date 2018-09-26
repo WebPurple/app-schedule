@@ -22,18 +22,7 @@ const NotesTab = () => (
     </View>
 );
 
-type Route = { key: string, title: string, icon: string };
-
-type State = {
-    index: number,
-    routes: Array<Route>,
-};
-
-type Props = {
-    pageColor: string,
-};
-
-export class Tabs extends React.Component<Props, State> {
+export class Tabs extends React.Component {
     static defaultProps = {
         pageColor: '#e62270',
     };
@@ -47,13 +36,11 @@ export class Tabs extends React.Component<Props, State> {
         ],
     };
 
-    renderIcon = ({ route }: { route: Route }) => (
-        <FontAwesome size={24} color={this.props.pageColor} name={route.icon} />
-    );
+    renderIcon = ({ route }) => <FontAwesome size={24} color={this.props.pageColor} name={route.icon} />;
 
     renderNothing = () => null;
 
-    render(): React.Node {
+    render() {
         return (
             <TabView
                 navigationState={this.state}

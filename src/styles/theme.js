@@ -1,4 +1,3 @@
-// @flow
 const colors = {
     grape: '#432867',
     warmGrey: '#a1a1a1',
@@ -17,13 +16,7 @@ export const theme = {
     colors,
 };
 
-export type ColorName = $Keys<typeof colors>;
-
-export type ThemeProps = {
-    theme: { colors: typeof colors },
-};
-
-export const getColor = (color?: ColorName, defaultColor: string = 'transparent'): string => {
+export const getColor = (color, defaultColor = 'transparent') => {
     if (!color || !colors[color]) {
         return defaultColor;
     }

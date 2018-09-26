@@ -1,5 +1,3 @@
-// @flow
-
 import styled from 'styled-components';
 import { getColor } from '../../../../styles/theme';
 

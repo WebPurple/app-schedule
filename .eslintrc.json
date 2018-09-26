@@ -8,8 +8,8 @@
         },
         "allowImportExportEverywhere": true
     },
-    "extends": ["airbnb-base", "plugin:react/recommended", "prettier", "plugin:flowtype/recommended"],
-    "plugins": ["prettier", "react", "flowtype"],
+    "extends": ["airbnb-base", "plugin:react/recommended", "prettier"],
+    "plugins": ["prettier", "react"],
     "rules": {
         "prettier/prettier": "error",
         "import/no-unresolved": [
@@ -20,6 +20,7 @@
             }
         ],
         "import/prefer-default-export": "off",
+        "react/prop-types": "off",
         "arrow-body-style": ["error", "as-needed"],
         "linebreak-style": "off",
         "key-spacing": "off",

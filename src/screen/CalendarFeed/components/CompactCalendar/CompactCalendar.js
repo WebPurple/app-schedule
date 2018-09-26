@@ -1,23 +1,14 @@
-// @flow
 import React from 'react';
 import { startOfWeek, addDays, format, getYear, getMonth } from 'date-fns';
 import { TouchableOpacity, PanResponder, Animated } from 'react-native';
 import { Wrapper, Row, Cell, CellText } from './atoms';
 
-type Props = {
-    selectedDate: Date,
-    onSelectDate: (date: Date) => void,
-};
-
-export class CompactCalendar extends React.Component<Props, {}> {
-    animatedValue: Animated.Value;
-    panResponder: PanResponder;
-    
+export class CompactCalendar extends React.Component {
     static WeekDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
 
     constructor() {
         super();
-        let currentValue: number = 20;
+        let currentValue = 20;
         this.animatedValue = new Animated.Value(20);
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => true,
@@ -40,18 +31,18 @@ export class CompactCalendar extends React.Component<Props, {}> {
         });
     }
 
-    generateCurrentWeekDays = ({ selectedDate }: Props): Array<string> => {
+    generateCurrentWeekDays = ({ selectedDate }) => {
         const firstDayOfWeek = startOfWeek(selectedDate, {
             weekStartsOn: 1,
         });
         return Array.from({ length: 7 }, (_v, i) => format(addDays(firstDayOfWeek, i), 'DD'));
     };
 
-    static isCurrentDate(dd: string, date: Date) {
+    static isCurrentDate(dd, date) {
         return dd === format(date, 'DD');
     }
 
-    handlePress = (dd: string) => () => {
+    handlePress = dd => () => {
         this.props.onSelectDate(
             new Date(getYear(this.props.selectedDate), getMonth(this.props.selectedDate), Number(dd)),
         );
