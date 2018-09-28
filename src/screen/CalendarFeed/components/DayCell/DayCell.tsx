@@ -6,7 +6,12 @@ import { DisplayedEvent } from '../../../../types/Event.type';
 
 type Props = DisplayedEvent;
 
-class DayCell extends React.PureComponent<Props> {
+class DayCell extends React.Component<Props> {
+    shouldComponentUpdate(nextProps: Props) {
+        const shouldUpdate: boolean = this.props.title !== nextProps.title;
+        return shouldUpdate;
+    }
+
     render() {
         const { showDate, ...eventInfo } = this.props;
         return (

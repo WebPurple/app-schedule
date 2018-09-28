@@ -50,7 +50,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
         return generateEventsForMonth(groupSchedule.default, firstDay, lastDay);
     }
 
-    keyExtractor = (item: DisplayedEvent) => item.title.replace(' ', '') + item.startDate.toString();
+    keyExtractor = (item: DisplayedEvent) => item.startDate.toString();
 
     renderItem = ({ item }: { item: DisplayedEvent }) => {
         const { showDate, ...otherFields } = item;

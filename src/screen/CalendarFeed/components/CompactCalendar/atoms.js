@@ -29,5 +29,11 @@ export const CellText = styled.Text`
     text-align: center;
     text-decoration: ${props => (props.underline ? 'underline' : 'none')};
     color: ${props => getColor(props.underline ? 'lipstick' : 'warmGrey')};
+    font-size: 14px;
     font-family: Rubik;
+`;
+
+export const CellHeaderText = styled(CellText)`
+    color: ${getColor('grape')};
+    font-weight: 600;
 `;
