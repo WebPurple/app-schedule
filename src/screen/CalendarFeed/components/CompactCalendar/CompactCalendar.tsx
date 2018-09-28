@@ -8,6 +8,8 @@ import {
     differenceInCalendarWeeks,
     startOfMonth,
     lastDayOfMonth,
+    getDate,
+    isSameDay,
 } from 'date-fns';
 import { TouchableOpacity, PanResponder, Animated, PanResponderInstance } from 'react-native';
 import { Wrapper, Row, Cell, CellText, CalendarBlock, CellHeaderText } from './atoms';
@@ -63,27 +65,23 @@ export class CompactCalendar extends React.Component<Props> {
         });
     }
 
-    generateCurrentWeekDays = ({ selectedDate }: { selectedDate: Date }) => {
+    generateCurrentWeekDays = ({ selectedDate }: { selectedDate: Date }): Date[] => {
         const firstDayOfWeek = startOfWeek(selectedDate, {
             weekStartsOn: 1,
         });
-        return Array.from({ length: 7 }, (_v, i) => format(addDays(firstDayOfWeek, i), 'DD'));
+        return Array.from({ length: 7 }, (_v, i) => addDays(firstDayOfWeek, i));
     };
 
-    static isCurrentDate(dd: string, date: Date) {
-        return dd === format(date, 'DD');
-    }
-
-    handlePress = (dd: String) => () => {
+    handlePress = (dd: Date) => () => {
         this.props.onSelectDate(
-            new Date(getYear(this.props.selectedDate), getMonth(this.props.selectedDate), Number(dd)),
+            new Date(getYear(this.props.selectedDate), getMonth(this.props.selectedDate), getDate(dd)),
         );
     };
 
     private renderMissingWeeks(from: Date, amount: number) {
         return Array.from({ length: amount }, (_v, i: number) => {
             const currentDay = addDays(from, 7 * i);
-            const weekDays = this.generateCurrentWeekDays({ selectedDate: currentDay });
+            const weekDays: Date[] = this.generateCurrentWeekDays({ selectedDate: currentDay });
             const [props, isPresent] = this.selectRowComponent(weekDays, this.props.selectedDate);
             return (
                 <Row {...props} key={currentDay.toString()}>
@@ -93,8 +91,8 @@ export class CompactCalendar extends React.Component<Props> {
         });
     }
 
-    selectRowComponent(weekDays: string[], day: Date): [object, boolean] {
-        const isPresent = weekDays.some(wd => CompactCalendar.isCurrentDate(wd, day));
+    selectRowComponent(weekDays: Date[], day: Date): [object, boolean] {
+        const isPresent = weekDays.some(wd => isSameDay(wd, day));
         const props = isPresent
             ? {}
             : {
@@ -107,15 +105,15 @@ export class CompactCalendar extends React.Component<Props> {
         return [props, isPresent];
     }
 
-    renderWeek(date: Date, weekDays: string[], showToday: boolean = false): ReactNode[] {
-        return weekDays.map(wd => this.renderCell(wd, showToday && CompactCalendar.isCurrentDate(wd, date)));
+    renderWeek(date: Date, weekDays: Date[], showToday: boolean = false): ReactNode[] {
+        return weekDays.map(wd => this.renderCell(wd, showToday && isSameDay(wd, date)));
     }
 
-    renderCell(wd: string, isCurrentDate: boolean): ReactNode {
+    renderCell(wd: Date, isCurrentDate: boolean): ReactNode {
         return (
-            <Cell key={wd}>
+            <Cell key={wd.toString()}>
                 <TouchableOpacity onPress={this.handlePress(wd)}>
-                    <CellText underline={isCurrentDate}>{wd}</CellText>
+                    <CellText underline={isCurrentDate}>{format(wd, 'DD')}</CellText>
                 </TouchableOpacity>
             </Cell>
         );

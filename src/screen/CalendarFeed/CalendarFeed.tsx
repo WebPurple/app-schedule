@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, FlatList } from 'react-native';
 import { NavigationContainerProps } from 'react-navigation';
 // eslint-disable-next-line
-import { getYear, getMonth, isToday, getDate, startOfMonth, lastDayOfMonth, startOfDay } from 'date-fns';
+import { getYear, getMonth, isToday, startOfMonth, lastDayOfMonth, startOfDay, isSameDay } from 'date-fns';
 
 import { Layout } from '../../components/Layout/Layout';
 import DayCell from './components/DayCell/DayCell';
@@ -25,8 +25,19 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
 
     constructor(props: NavigationContainerProps) {
         super(props);
+        const events = CalendarFeed.generateCurrentMonth(new Date());
+        this.state = {
+            currentEvent: events[this.findFirstTodayEvent(events)],
+            events,
+        };
+    }
+
+    static generateCurrentMonth(date: Date): DisplayedEvent[] {
+        const firstDay = startOfMonth(date);
+        const lastDay = lastDayOfMonth(date);
+        const events = generateEventsForMonth(groupSchedule.default, firstDay, lastDay);
         let shownDatesStack = new Set();
-        const events = CalendarFeed.generateCurrentMonth(new Date()).map(event => {
+        return events.map(event => {
             const day: string = startOfDay(event.startDate).toString();
             const isInSet = shownDatesStack.has(day);
             if (!isInSet) {
@@ -38,17 +49,18 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
                 isToday: isToday(event.startDate),
             };
         });
-        this.state = {
-            currentEvent: events[this.findFirstTodayEvent(events)],
-            events,
-        };
     }
 
-    static generateCurrentMonth(date: Date) {
-        const firstDay = startOfMonth(date);
-        const lastDay = lastDayOfMonth(date);
-        return generateEventsForMonth(groupSchedule.default, firstDay, lastDay);
-    }
+    fetchNextMonth = () => {
+        const lastAvailableDay = this.state.events[this.state.events.length - 1].startDate;
+        const nextEvents = CalendarFeed.generateCurrentMonth(
+            new Date(getYear(lastAvailableDay), getMonth(lastAvailableDay) + 1, 1),
+        );
+
+        this.setState(({ events }) => {
+            return { events: events.concat(nextEvents) };
+        });
+    };
 
     keyExtractor = (item: DisplayedEvent) => item.startDate.toString();
 
@@ -69,16 +81,14 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
     };
 
     onScroll = ({ viewableItems }: { viewableItems: Array<{ item: DisplayedEvent }> }) => {
-        this.setState({ currentEvent: viewableItems[0].item });
+        const dateItem = viewableItems[0];
+        if (dateItem) {
+            this.setState({ currentEvent: viewableItems[0].item });
+        }
     };
 
     handleDateSelection = (date: Date) => {
-        const foundIndex = this.state.events.findIndex(
-            ({ startDate }) =>
-                getYear(startDate) === getYear(date) &&
-                getMonth(startDate) === getMonth(date) &&
-                getDate(startDate) === getDate(date),
-        );
+        const foundIndex = this.state.events.findIndex(({ startDate }) => isSameDay(startDate, date));
         if (foundIndex !== -1) {
             this.listRef.current.scrollToIndex({ index: foundIndex, animated: false });
         }
@@ -101,6 +111,8 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
                         initialScrollIndex={this.findFirstTodayEvent(this.state.events)}
                         scrollEventThrottle={1}
                         onViewableItemsChanged={this.onScroll}
+                        onEndReachedThreshold={15}
+                        onEndReached={this.fetchNextMonth}
                     />
                 </View>
             </Layout>
