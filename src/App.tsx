@@ -1,5 +1,5 @@
 import React from 'react';
-import Expo from 'expo';
+import { Font } from 'expo';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import { Router } from './Router';
@@ -7,13 +7,15 @@ import { Router } from './Router';
 // tslint:disable-next-line:no-var-requires
 const RubikFont = require('../assets/Rubik-Regular.ttf');
 
-export default class App extends React.Component {
+type State = { assetsLoaded: boolean };
+
+export default class App extends React.Component<{}, State> {
     state = {
         assetsLoaded: false,
     };
 
     async componentDidMount() {
-        await Expo.Font.loadAsync({
+        await Font.loadAsync({
             Rubik: RubikFont,
         });
         this.setState({ assetsLoaded: true });
