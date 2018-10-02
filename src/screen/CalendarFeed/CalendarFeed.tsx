@@ -35,7 +35,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
     static generateCurrentMonth(date: Date): DisplayedEvent[] {
         const firstDay = startOfMonth(date);
         const lastDay = lastDayOfMonth(date);
-        const events = generateEventsForMonth(groupSchedule.default, firstDay, lastDay);
+        const events = generateEventsForMonth(groupSchedule, firstDay, lastDay);
         let shownDatesStack = new Set();
         return events.map(event => {
             const day: string = startOfDay(event.startDate).toString();
