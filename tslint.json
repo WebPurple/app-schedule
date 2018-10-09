@@ -60,7 +60,6 @@
         "no-consecutive-blank-lines": [true],
         "no-parameter-properties": false,
         "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-finally", "check-whitespace"],
-        "quotemark": [true, "single", "avoid-escape"],
         "semicolon": false,
         "variable-name": [true, "allow-leading-underscore", "ban-keywords"],
         "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"]

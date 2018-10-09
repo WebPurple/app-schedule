@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { View, FlatList } from 'react-native';
-import { NavigationContainerProps } from 'react-navigation';
-// eslint-disable-next-line
+import { NavigationContainerProps, NavigationBottomTabScreenOptions } from 'react-navigation';
 import { getYear, getMonth, isToday, startOfMonth, lastDayOfMonth, startOfDay, isSameDay } from 'date-fns';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Layout } from '../../components/Layout/Layout';
 import DayCell from './components/DayCell/DayCell';
-import { Header } from '../../components/Header/Header';
 import { CompactCalendar } from './components/CompactCalendar/CompactCalendar';
 import { DisplayedEvent } from '../../types/Event.type';
 import { generateEventsForMonth, groupSchedule } from '../../data';
+import { getColor } from '../../styles/theme';
 
 type State = {
     currentEvent: DisplayedEvent;
@@ -17,8 +17,9 @@ type State = {
 };
 
 export class CalendarFeed extends React.Component<NavigationContainerProps, State> {
-    static navigationOptions = {
-        headerTitle: <Header title="Webpurple's Scheduler" />,
+    static navigationOptions: NavigationBottomTabScreenOptions = {
+        title: 'Schedule',
+        tabBarIcon: <Icon size={24} color={getColor('grape')} name="calendar-o" />
     };
 
     listRef = React.createRef<FlatList<DisplayedEvent>>();
@@ -28,7 +29,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
         const events = CalendarFeed.generateCurrentMonth(new Date());
         this.state = {
             currentEvent: events[this.findFirstTodayEvent(events)],
-            events,
+            events
         };
     }
 
@@ -46,7 +47,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
             return {
                 ...event,
                 showDate: !isInSet,
-                isToday: isToday(event.startDate),
+                isToday: isToday(event.startDate)
             };
         });
     }
@@ -54,7 +55,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
     fetchNextMonth = () => {
         const lastAvailableDay = this.state.events[this.state.events.length - 1].startDate;
         const nextEvents = CalendarFeed.generateCurrentMonth(
-            new Date(getYear(lastAvailableDay), getMonth(lastAvailableDay) + 1, 1),
+            new Date(getYear(lastAvailableDay), getMonth(lastAvailableDay) + 1, 1)
         );
 
         this.setState(({ events }) => {
@@ -72,7 +73,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
     getItemLayout = (_item: never, index: number) => ({
         length: 70,
         offset: 70 * index,
-        index,
+        index
     });
 
     findFirstTodayEvent = (events: DisplayedEvent[]): number => {
@@ -90,7 +91,10 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
     handleDateSelection = (date: Date) => {
         const foundIndex = this.state.events.findIndex(({ startDate }) => isSameDay(startDate, date));
         if (foundIndex !== -1) {
-            this.listRef.current.scrollToIndex({ index: foundIndex, animated: false });
+            this.listRef.current.scrollToIndex({
+                index: foundIndex,
+                animated: false
+            });
         }
     };
 

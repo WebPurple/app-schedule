@@ -1,24 +1,17 @@
-import { createStackNavigator } from 'react-navigation';
+import {
+    createStackNavigator,
+    createBottomTabNavigator,
+} from 'react-navigation';
 import { CalendarFeed } from './screen/CalendarFeed/CalendarFeed';
 import { EventScreen } from './screen/Event';
 
-const MainStack = createStackNavigator(
+const MainStack = createBottomTabNavigator(
     {
         Home: CalendarFeed,
     },
     {
         initialRouteName: 'Home',
-        navigationOptions: {
-            headerStyle: {
-                backgroundColor: '#fff',
-            },
-            headerTintColor: '#e62270',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                fontFamily: 'Rubik',
-            },
-        },
-    },
+    }
 );
 
 export const Router = createStackNavigator(
@@ -33,5 +26,5 @@ export const Router = createStackNavigator(
     {
         mode: 'modal',
         headerMode: 'none',
-    },
+    }
 );
