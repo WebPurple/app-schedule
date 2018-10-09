@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import { FontAwesome } from '@expo/vector-icons';
 
 const EventInfoTab = () => (
     <View>
@@ -36,7 +35,10 @@ export class Tabs extends React.Component {
         ],
     };
 
-    renderIcon = ({ route }) => <FontAwesome size={24} color={this.props.pageColor} name={route.icon} />;
+    // renderIcon = ({ route }) => <FontAwesome size={24} color={this.props.pageColor} name={route.icon} />;
+
+    // renderIcon={this.renderIcon}
+    // renderLabel={this.renderNothing}
 
     renderNothing = () => null;
 
@@ -54,8 +56,6 @@ export class Tabs extends React.Component {
                 renderTabBar={props => (
                     <TabBar
                         {...props}
-                        renderIcon={this.renderIcon}
-                        renderLabel={this.renderNothing}
                         style={{
                             backgroundColor: '#fff',
                         }}
