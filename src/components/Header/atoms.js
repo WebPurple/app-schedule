@@ -9,7 +9,7 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
     color: ${getColor('lipstick')};
-    font-family: Rubik;
+    font-family: Rubik-Regular;
     font-weight: bold;
     font-size: 22px;
 `;

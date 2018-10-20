@@ -15,7 +15,7 @@ const MainStack = createStackNavigator(
             headerTintColor: '#e62270',
             headerTitleStyle: {
                 fontWeight: 'bold',
-                fontFamily: 'Rubik',
+                fontFamily: 'Rubik-Regular',
             },
         },
     },

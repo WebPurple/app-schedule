@@ -11,7 +11,7 @@ export const HeaderWrapper = styled.View`
 
 export const Title = styled.Text`
     font-size: 20px;
-    font-family: 'Rubik';
+    font-family: 'Rubik-Regular';
     font-weight: bold;
     color: #fff;
 `;
