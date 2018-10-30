@@ -11,7 +11,7 @@ const MainStack = createBottomTabNavigator(
     },
     {
         initialRouteName: 'Home',
-    }
+    },
 );
 
 export const Router = createStackNavigator(

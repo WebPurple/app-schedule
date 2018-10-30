@@ -9,7 +9,7 @@ export const Wrapper = styled.View`
 
 export const Day = styled.Text`
     font-size: 22px;
-    font-family: 'Rubik';
+    font-family: 'Rubik-Regular';
     color: ${props => getColor(props.isToday ? 'lipstick' : 'greyishBrown')};
 `;
 
