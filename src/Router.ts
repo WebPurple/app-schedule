@@ -1,30 +1,33 @@
 import {
-    createStackNavigator,
     createBottomTabNavigator,
+    DrawerNavigator
 } from 'react-navigation';
 import { CalendarFeed } from './screen/CalendarFeed/CalendarFeed';
 import { EventScreen } from './screen/Event';
+import PersonalScreen from './screen/Personal';
+import SideMenu from './components/SideMenu/SideMenu'
 
 const MainStack = createBottomTabNavigator(
     {
         Home: CalendarFeed,
+        Personal: PersonalScreen
     },
     {
         initialRouteName: 'Home',
     },
 );
 
-export const Router = createStackNavigator(
-    {
-        Main: {
-            screen: MainStack,
-        },
-        Event: {
-            screen: EventScreen,
-        },
+export default DrawerNavigator({
+    Home: {
+      screen: MainStack,
     },
-    {
-        mode: 'modal',
-        headerMode: 'none',
+    Personal: {
+        screen: PersonalScreen
+    },
+    Event: {
+        screen: EventScreen,
     }
-);
+}, {
+    contentComponent: SideMenu,
+    drawerWidth: 250
+});

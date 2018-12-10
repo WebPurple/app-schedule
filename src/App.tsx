@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
-import { Router } from './Router';
+import Router from './Router';
 
 type State = { assetsLoaded: boolean };
 
