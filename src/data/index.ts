@@ -31,6 +31,13 @@ type GroupSchedule = {
     numeratorStartsOn: number;
     default: RawEvent[];
 };
+type UserInfo = {
+    name: string;
+    surname: string;
+    photo: any;
+    group: string;
+    allowNotifications: boolean;
+};
 
 export const groupSchedule: GroupSchedule = {
     numeratorStartsOn: 40,
@@ -253,3 +260,11 @@ export const generateEventsForMonth = (rawEvents: GroupSchedule, from: Date, til
         .sort((e1, e2) => compareAsc(e1.startDate, e2.startDate));
     return flattenedEvents;
 };
+
+export const userInfo: UserInfo = {
+    name: 'John',
+    surname: 'Doe',
+    photo: require('../../assets/userPhoto.png'),
+    group: '121a',
+    allowNotifications: true
+}
