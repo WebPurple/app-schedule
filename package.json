@@ -17,21 +17,25 @@
     ]
   },
   "dependencies": {
+    "@types/react-native-vector-icons": "4.6.4",
     "cron-parser": "2.6.0",
     "date-fns": "1.29.0",
+    "md5-hex": "2.0.0",
     "react": "16.5.0",
     "react-native": "0.57.2",
     "react-native-cli": "2.0.1",
+    "react-native-firebase": "5.1.1",
     "react-native-tab-view": "1.0.2",
+    "react-native-vector-icons": "6.1.0",
     "react-navigation": "2.16.0",
-    "styled-components": "4.0.0-beta.9"
+    "styled-components": "4.1.3"
   },
   "devDependencies": {
     "@types/date-fns": "2.6.0",
     "@types/react": "16.4.14",
     "@types/react-native": "0.56.24",
     "@types/react-navigation": "2.0.22",
-    "@types/styled-components": "3.0.1",
+    "@types/styled-components": "4.1.4",
     "babel-jest": "23.6.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.48.0",

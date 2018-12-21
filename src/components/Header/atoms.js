@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Logo as LogoComponent } from '../Logo';
 import { getColor } from '../../styles/theme';
 
 export const Container = styled.View`
@@ -14,8 +15,6 @@ export const Title = styled.Text`
     font-size: 22px;
 `;
 
-export const Logo = styled.Image`
-    width: 32px;
-    height: 32px;
+export const Logo = styled(LogoComponent)`
     margin: 0 10px;
 `;
