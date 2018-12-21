@@ -9,15 +9,19 @@ const colors = {
     warmPurple: '#662d91',
     rouge: '#b21d3d',
     rosePink: '#f290b7',
-    liliac: '#c788fe',
+    liliac: '#c788fe'
 };
 
 type Colors = typeof colors;
 
 export type ColorName = keyof Colors;
 
-export const theme = {
-    colors,
+export interface ThemeInterface {
+    colors: Colors;
+}
+
+export const theme: ThemeInterface = {
+    colors
 };
 
 export const getColor = (color: ColorName, defaultColor: string = 'transparent'): Colors[ColorName] => {

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "818421349541",
+    "firebase_url": "https://app-schedule-wp.firebaseio.com",
+    "project_id": "app-schedule-wp",
+    "storage_bucket": "app-schedule-wp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818421349541:android:ca00fb63fb0fd3e8",
+        "android_client_info": {
+          "package_name": "com.appscheduler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818421349541-5rqv8lb07e3v21nrf4tl7m0r7lm7tudu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAeh6XGVVMtInMMGTdQ3ZCeUfCCBaPKKU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
