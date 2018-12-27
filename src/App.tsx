@@ -8,7 +8,7 @@ type State = { assetsLoaded: boolean };
 
 export default class App extends React.Component<{}, State> {
     state = {
-        assetsLoaded: true
+        assetsLoaded: true,
     };
 
     render() {

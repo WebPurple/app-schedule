@@ -16,7 +16,8 @@
         "noImplicitReturns": true,
         "skipLibCheck": true,
         "moduleResolution": "Node",
-        "typeRoots": ["./types", "./node_modules/@types"]
+        "typeRoots": ["./types", "./node_modules/@types"],
+        "lib": ["esnext"]
     },
     "filesGlob": [
         "typings/index.d.ts",

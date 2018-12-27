@@ -1,66 +1,83 @@
 import * as React from 'react';
 import { View, FlatList } from 'react-native';
-import { NavigationContainerProps, NavigationBottomTabScreenOptions } from 'react-navigation';
-import { getYear, getMonth, isToday, startOfMonth, lastDayOfMonth, startOfDay, isSameDay } from 'date-fns';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { NavigationContainerProps } from 'react-navigation';
+import { getYear, getMonth, isToday, isSameDay } from 'date-fns';
 
-import { Layout } from '../../components/Layout/Layout';
 import DayCell from './components/DayCell/DayCell';
 import { CompactCalendar } from './components/CompactCalendar/CompactCalendar';
+import { Layout } from '../../components/Layout/Layout';
 import { DisplayedEvent } from '../../types/Event.type';
-import { generateEventsForMonth, groupSchedule } from '../../data';
-import { getColor } from '../../styles/theme';
+import { withAuth, AppUser, withFirebase, Firebase, Scheduler } from '../../core';
+import { Group, GroupSchedule } from '../../types/scheme';
 
-type State = {
-    currentEvent: DisplayedEvent;
-    events: DisplayedEvent[];
+type Props = NavigationContainerProps & {
+    firebase: Firebase;
+    user: AppUser;
 };
 
-export class CalendarFeed extends React.Component<NavigationContainerProps, State> {
-    static navigationOptions: NavigationBottomTabScreenOptions = {
-        title: 'Schedule',
-        tabBarIcon: <Icon size={24} color={getColor('grape')} name="calendar-o" />
+type State = {
+    currentEvent: DisplayedEvent | null;
+    events: DisplayedEvent[];
+    schedule: GroupSchedule;
+};
+
+class CalendarFeed extends React.Component<Props, State> {
+    listRef = React.createRef<FlatList<DisplayedEvent>>();
+    firebase = this.props.firebase;
+    groupsPathsUnsubscribers: string[];
+
+    state: State = {
+        events: [],
+        currentEvent: null,
+        schedule: null,
     };
 
-    listRef = React.createRef<FlatList<DisplayedEvent>>();
-
-    constructor(props: NavigationContainerProps) {
-        super(props);
-        const events = CalendarFeed.generateCurrentMonth(new Date());
-        this.state = {
-            currentEvent: events[this.findFirstTodayEvent(events)],
-            events
-        };
+    async componentDidMount() {
+        try {
+            const groups = await Promise.all(
+                this.props.user.groups.map(groupName => this.firebase.getPathValueOnce<Group>(`/groups/${groupName}`)),
+            );
+            this.groupsPathsUnsubscribers = groups.map(({ schedule }) => {
+                const path = `/schedules/${schedule}`;
+                this.setScheduleListener(path);
+                return path;
+            });
+        } catch ({ message }) {
+            console.warn(message);
+            this.groupsPathsUnsubscribers = [];
+        }
     }
 
-    static generateCurrentMonth(date: Date): DisplayedEvent[] {
-        const firstDay = startOfMonth(date);
-        const lastDay = lastDayOfMonth(date);
-        const events = generateEventsForMonth(groupSchedule, firstDay, lastDay);
-        let shownDatesStack = new Set();
-        return events.map(event => {
-            const day: string = startOfDay(event.startDate).toString();
-            const isInSet = shownDatesStack.has(day);
-            if (!isInSet) {
-                shownDatesStack.add(day);
-            }
-            return {
-                ...event,
-                showDate: !isInSet,
-                isToday: isToday(event.startDate)
-            };
+    componentWillUnmount() {
+        this.groupsPathsUnsubscribers.forEach(path => this.firebase.db.ref(path).off('value'));
+    }
+
+    setScheduleListener(path: string) {
+        this.firebase.db.ref(path).on('value', snapshot => this.handleScheduleUpdate(snapshot.val()));
+    }
+
+    handleScheduleUpdate(schedule: GroupSchedule) {
+        const events = Scheduler.generateCurrentMonth(new Date(), schedule);
+        this.setState({
+            currentEvent: events[this.findFirstTodayEvent(events)],
+            events,
+            schedule,
         });
     }
 
     fetchNextMonth = () => {
-        const lastAvailableDay = this.state.events[this.state.events.length - 1].startDate;
-        const nextEvents = CalendarFeed.generateCurrentMonth(
-            new Date(getYear(lastAvailableDay), getMonth(lastAvailableDay) + 1, 1)
+        const { events, schedule } = this.state;
+        const lastAvailableDay = events[events.length - 1].startDate;
+        const nextEvents = Scheduler.generateCurrentMonth(
+            new Date(getYear(lastAvailableDay), getMonth(lastAvailableDay) + 1, 1),
+            schedule,
         );
 
-        this.setState(({ events }) => {
-            return { events: events.concat(nextEvents) };
-        });
+        if (nextEvents.length) {
+            this.setState(prevState => ({
+                events: prevState.events.concat(nextEvents),
+            }));
+        }
     };
 
     keyExtractor = (item: DisplayedEvent) => item.startDate.toString();
@@ -73,7 +90,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
     getItemLayout = (_item: never, index: number) => ({
         length: 70,
         offset: 70 * index,
-        index
+        index,
     });
 
     findFirstTodayEvent = (events: DisplayedEvent[]): number => {
@@ -84,7 +101,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
     onScroll = ({ viewableItems }: { viewableItems: Array<{ item: DisplayedEvent }> }) => {
         const dateItem = viewableItems[0];
         if (dateItem) {
-            this.setState({ currentEvent: viewableItems[0].item });
+            this.setState({ currentEvent: dateItem.item });
         }
     };
 
@@ -93,7 +110,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
         if (foundIndex !== -1) {
             this.listRef.current.scrollToIndex({
                 index: foundIndex,
-                animated: false
+                animated: false,
             });
         }
     };
@@ -103,7 +120,7 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
             <Layout>
                 <CompactCalendar
                     onSelectDate={this.handleDateSelection}
-                    selectedDate={this.state.currentEvent.startDate}
+                    selectedDate={this.state.currentEvent && this.state.currentEvent.startDate}
                 />
                 <View style={{ flex: 1 }}>
                     <FlatList
@@ -123,3 +140,5 @@ export class CalendarFeed extends React.Component<NavigationContainerProps, Stat
         );
     }
 }
+
+export const CalendarFeedScreen = withAuth(withFirebase(CalendarFeed));
