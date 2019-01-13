@@ -53,7 +53,7 @@ export const Button = styled(ButtonComponent)`
 `;
 
 export const LinksRow = styled(View)`
-    flex: 0.1;
+    flex: 0.3;
     flex-direction: row;
     justify-content: space-between;
     height: 20px;

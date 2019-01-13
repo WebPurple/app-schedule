@@ -3,13 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "test": "jest",
     "tsc:build": "tsc",
     "tsc:build:watch": "tsc -w",
-    "dev:android": "npm-run-all -p start tsc:build:watch android"
+    "dev:android": "npm-run-all -p start tsc:build:watch android",
+    "dev:ios": "npm-run-all -p start tsc:build:watch ios"
   },
   "rnpm": {
     "assets": [
