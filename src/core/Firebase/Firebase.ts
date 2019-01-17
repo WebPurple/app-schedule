@@ -9,8 +9,17 @@ export class Firebase {
         this.db = firebase.database();
     }
 
+    // TODO add strict mode for TS
     getRefValueOnce = <T>(ref: RNFirebase.database.Reference): Promise<T | null> =>
-        ref.once('value').then(snapshot => snapshot.val());
+        ref
+            .once('value')
+            .then(snapshot => snapshot.val())
+            .catch(error => {
+                console.error(error);
+                return null;
+            });
+
+    getPathValueOnce = <T>(path: string): Promise<T | null> => this.getRefValueOnce(this.db.ref(path));
 }
 
 export type FirebaseUser = RNFirebase.User;

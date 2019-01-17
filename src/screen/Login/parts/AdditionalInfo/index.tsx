@@ -2,26 +2,24 @@ import React from 'react';
 import { NavigationContainerProps } from 'react-navigation';
 import * as Atoms from './atoms';
 import { Logo } from '../../../../components/Logo';
+import { User, Role, Sex } from '../../../../types/scheme';
+import { Omit } from 'types/utils';
 
 type Props = NavigationContainerProps;
-type State = {
-    isLector: boolean;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    groups: number[];
-};
+type State = Omit<User, 'email'>;
 type Name = keyof Pick<State, 'firstName' | 'lastName' | 'middleName'>;
 
 const loginProps = { login: false };
 
 export class AdditionalInfoScreen extends React.Component<Props, State> {
     state: State = {
-        isLector: false,
+        role: Role.Student,
         firstName: '',
         lastName: '',
         middleName: '',
         groups: [],
+        admin: false,
+        sex: Sex.Male,
     };
 
     validate() {
@@ -41,6 +39,8 @@ export class AdditionalInfoScreen extends React.Component<Props, State> {
     }
 
     render() {
+        const isLector = this.state.role === Role.Lector;
+
         return (
             <Atoms.Wrapper {...loginProps}>
                 <Atoms.LogoContainer>
@@ -51,8 +51,10 @@ export class AdditionalInfoScreen extends React.Component<Props, State> {
                         <Atoms.Row>
                             <Atoms.Text>Lector?</Atoms.Text>
                             <Atoms.StyledSwitch
-                                value={this.state.isLector}
-                                onValueChange={(isLector: boolean) => this.setState({ isLector })}
+                                value={isLector}
+                                onValueChange={(lector: boolean) =>
+                                    this.setState({ role: lector ? Role.Lector : Role.Student })
+                                }
                             />
                         </Atoms.Row>
 
@@ -62,9 +64,9 @@ export class AdditionalInfoScreen extends React.Component<Props, State> {
                         {/* add sex */}
                         {/* change to flatlist + fetch data */}
                         <Atoms.Input
-                            placeholder={this.state.isLector ? 'groups' : 'group'}
+                            placeholder={isLector ? 'groups' : 'group'}
                             onChangeText={(str: string) => {
-                                const groups = str.split(',').map(Number);
+                                const groups = str.split(',');
                                 this.setState({ groups });
                             }}
                         />

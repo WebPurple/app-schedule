@@ -1,6 +1,7 @@
 import { ColorName } from '../styles/theme';
-
+import { Sequence } from './scheme';
 export interface IEvent {
+    sequence: Sequence;
     title: string;
     description: string;
     startDate: Date;

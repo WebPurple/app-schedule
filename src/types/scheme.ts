@@ -1,24 +1,24 @@
 type Cron = string;
-type MD5Hash = string;
+type EmailHash = string;
 
 export enum EventWeek {
     Numerator = 'NUMERATOR',
     Denominator = 'DENOMINATOR',
-    Both = 'BOTH'
+    Both = 'BOTH',
 }
 
 type EventWeekType = 'NUMERATOR' | 'DENOMINATOR' | 'BOTH';
 
 export enum Sex {
     Male = 'MALE',
-    Female = 'FEMALE'
+    Female = 'FEMALE',
 }
 
 type SexType = 'MALE' | 'FEMALE';
 
 export enum Role {
     Student = 'STUDENT',
-    Lector = 'LECTOR'
+    Lector = 'LECTOR',
 }
 
 type RoleType = 'STUDENT' | 'LECTOR';
@@ -27,27 +27,26 @@ type Email = string;
 type TDate = string;
 
 export type User = {
-    id: string;
     firstName?: string;
     lastName?: string;
     middleName?: string;
     sex: SexType;
-
     email: Email;
     groups: string[]; // [1] only one for Student
-
     role: RoleType;
     admin: boolean;
 };
 
-type Group = {
+export type Group = {
     number: string;
-    schedules: string[];
+    schedule: string;
 };
 
-type SequenceData = {
+export type Sequence = {
+    id: string;
     cron: Cron;
     year: number;
+    numeratorStartsOn: number;
     room: string;
     lector: Email[];
     isPractice: boolean;
@@ -62,19 +61,19 @@ type Note = {
     by: Email;
 };
 
-type RawEvent = {
-    sequence: SequenceData[];
+export type SubjectSchedule = {
+    sequences: Sequence[];
     title: string;
     description: string;
 };
 
-type Schedule = {
+export type GroupSchedule = {
     id: string;
-    schedule: RawEvent[];
+    schedule: SubjectSchedule[];
 };
 
 export type Database = {
-    users: Record<MD5Hash, User>;
+    users: Record<EmailHash, User>;
     groups: Record<Group['number'], Group>;
-    schedules: Record<Schedule['id'], Schedule>;
+    schedules: Record<GroupSchedule['id'], GroupSchedule>;
 };

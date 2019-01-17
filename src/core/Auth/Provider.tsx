@@ -30,6 +30,12 @@ class Provider extends React.Component<Props, State> {
         this.unsubscribe = this.firebase.auth.onAuthStateChanged(this.handleAuthStateChanged);
     }
 
+    componentDidUpdate(_: Props, prevState: State) {
+        if (!prevState.user && this.state.user && this.state.error) {
+            this.setState({error: null});
+        }
+    }
+
     componentWillUnmount() {
         if (this.unsubscribe) {
             this.unsubscribe();
@@ -50,7 +56,7 @@ class Provider extends React.Component<Props, State> {
             try {
                 let user = await this.firebase.getRefValueOnce<User>(currentUserRef);
                 if (!user) {
-                    await currentUserRef.push(hash).set({ ...this.state.additionalInfo, email });
+                    await currentUserRef.set({ ...this.state.additionalInfo, email });
                     user = await this.firebase.getRefValueOnce<User>(currentUserRef);
                 }
                 this.setState({ user });
